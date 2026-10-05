@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarZone - Secure Payment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .payment-container {
+            max-width: 800px;
+            margin: 30px auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .payment-header {
+            background: linear-gradient(135deg, #1a252f, #2c3e50);
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .payment-header h1 {
+            margin: 0 0 10px 0;
+            font-size: 28px;
+        }
+
+        .payment-header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 16px;
+        }
+
+        .payment-content {
+            padding: 40px;
+        }
+
+        .order-summary {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .order-summary h2 {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-details {
+            flex: 1;
+        }
+
+        .order-price {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 24px;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid #e74c3c;
+        }
+
+        .payment-form {
+            margin-bottom: 30px;
+        }
+
+        .payment-form h2 {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        .form-group.full-width {
+            flex: none;
+            width: 100%;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ecf0f1;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #e74c3c;
+        }
+
+        .card-icons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 30px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .card-icon.active {
+            border-color: #e74c3c;
+            color: #e74c3c;
+        }
+
+        .security-icon {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .security-icon i {
+            color: #27ae60;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .submit-btn:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .security-badge {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 25px;
+            padding: 15px;
+            background-color: #e8f5e8;
+            border-radius: 8px;
+            border-left: 4px solid #27ae60;
+        }
+
+        .security-badge i {
+            font-size: 24px;
+            color: #27ae60;
+        }
+
+        .security-badge span {
+            font-size: 14px;
+            color: #27ae60;
+        }
+
+        @media (max-width: 600px) {
+            .payment-content {
+                padding: 20px;
+            }
+
+            .form-row {
+                flex-direction: column;
+            }
+
+            .order-summary,
+            .payment-form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <div class="payment-header">
+            <h1>Secure Payment Processing</h1>
+            <p>Your transaction is protected with 256-bit SSL encryption</p>
+        </div>
+
+        <div class="payment-content">
+            <!-- Order Summary -->
+            <div class="order-summary">
+                <h2>Order Summary</h2>
+                <div class="order-item">
+                    <div class="order-details">
+                        <h3>2022 Toyota Camry</h3>
+                        <p>VIN: 1HGBH41JXMN109186 • 32,000 miles</p>
+                    </div>
+                    <div class="order-price">$24,999.00</div>
+                </div>
+                <div class="order-item">
+                    <div class="order-details">
+                        <h3>Documentation Fee</h3>
+                        <p>Standard processing</p>
+                    </div>
+                    <div class="order-price">$199.00</div>
+                </div>
+                <div class="order-item">
+                    <div class="order-details">
+                        <h3>Sales Tax (8.5%)</h3>
+                        <p>Calculated at checkout</p>
+                    </div>
+                    <div class="order-price">$2,126.42</div>
+                </div>
+                <div class="order-total">
+                    <span>Total Amount</span>
+                    <span>$27,324.42</span>
+                </div>
+            </div>
+
+            <!-- Payment Form -->
+            <div class="payment-form">
+                <h2>Payment Information</h2>
+
+                <div class="form-group">
+                    <label for="card-name">Name on Card</label>
+                    <input type="text" id="card-name" placeholder="As it appears on card" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="card-number">Card Number</label>
+                    <input type="text" id="card-number" placeholder="•••• •••• •••• ••••" maxlength="19" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="exp-date">Expiration Date</label>
+                        <input type="text" id="exp-date" placeholder="MM/YY" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cvv">CVV</label>
+                        <input type="text" id="cvv" placeholder="•••" maxlength="3" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Card Type</label>
+                    <div class="card-icons">
+                        <div class="card-icon" data-card="visa">Visa</div>
+                        <div class="card-icon" data-card="mastercard">MasterCard</div>
+                        <div class="card-icon" data-card="amex">Amex</div>
+                        <div class="card-icon" data-card="discover">Discover</div>
+                    </div>
+                </div>
+
+                <div class="security-icon">
+                    <i class="fas fa-lock"></i>
+                    <span>Secure transaction - Your data is encrypted</span>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn">Pay $27,324.42 Now</button>
+
+            <!-- Security Badge -->
+            <div class="security-badge">
+                <i class="fas fa-shield-alt"></i>
+                <span>Protected by FraudGuard Security</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
